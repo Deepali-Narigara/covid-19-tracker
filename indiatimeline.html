@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Covid tracker
+    </title>
+    <link rel="shortcut icon" href="./static/images/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.min.js" defer></script>
+    <script src="https://use.fontawesome.com/9f47f376f1.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./static/css/bootstrap.css">
+    <link rel="stylesheet" href="./static/css/statewise.css">
+</head>
+
+<body>
+    <div id="loader"></div>
+    <!-- top nav -->
+    <div class="nav-wrapper">
+        <div class="container">
+            <div class="nav">
+                <a href="landing.html" class="logo">
+                    C<i class="bx bxs-virus-block bx-tada"></i>VID TRACKER
+                </a>
+                
+                <div class="darkmode-switch" id="darkmode-switch">
+                    <span>
+                        <i class="bx bxs-moon"></i>
+                        <i class="bx bxs-sun"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end top nav -->
+    <div class="container-fluid">
+        <div class="section_header text-center mb-5 mt-4">
+            <h1>India Covid-19 Timeline</h1>
+        </div>
+    </div>
+    
+    <div class="container-fluid" x-data="tableViewModel()" x-init="getData()">
+        <div class="search-input form-group w-50 mx-auto">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">By Date (all in 2020)</div>
+                </div>
+                <input class="form-control" type="text" placeholder="Format [Day Month] or [Month] ex. 15 March or July" x-model="searchInput" x-on:keyup="updateSearch">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" x-on:click="resetSearch">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive data-table">
+            <table class="table text-center" id="tbval">
+                <thead>
+                    <tr>
+                        <th class="sort-header" x-on:click="sortRow('date')">
+                            Date 
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'date'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'date'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('totalconfirmed')">
+                            Total Confirmed 
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'totalconfirmed'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'totalconfirmed'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('totalrecovered')">
+                            Total Recovered
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'totalrecovered'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'totalrecovered'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('totaldeceased')">
+                            Total Deaths
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'totaldeceased'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'totaldeceased'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('dailyconfirmed')">
+                            Daily Confirmed
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'dailyconfirmed'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'dailyconfirmed'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('dailyrecovered')">
+                            Daily Recovered
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'dailyrecovered'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'dailyrecovered'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('dailydeceased')">
+                            Daily Deceased
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'dailydeceased'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'dailydeceased'"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="(row, index) in cases" :key="row.date">
+                        <tr>
+                            <td><span x-text="row.date"></span></td>
+                            <td><span x-text="row.totalconfirmed"></span></td>
+                            <td><span x-text="row.totalrecovered"></span></td>
+                            <td><span x-text="row.totaldeceased"></span></td>
+                            <td><span x-text="row.dailyconfirmed"></span></td>
+                            <td><span x-text="row.dailyrecovered"></span></td>
+                            <td><span x-text="row.dailydeceased"></span></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div> 
+    </div>
+     <!-- footer -->
+     <div class="footer">
+        Designed by <a href="#">COVID TRACKER</a>
+      </div>
+     <!-- end footer -->
+     <script src="./static/js/app.js"></script>
+    <script src="./static/js/indiatimeline.js"></script>
+    
+</body>
+</html>

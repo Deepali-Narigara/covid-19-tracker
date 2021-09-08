@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>
+          Covid tracker
+      </title>
+      <link rel="shortcut icon" href="./static/images/favicon.png" type="image/png">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+      <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+      <!-- CSS -->
+      <link rel="stylesheet" href="./static/css/bootstrap.css">
+      <link rel="stylesheet" href="./static/css/app.css">
+      <link rel="stylesheet" href="./static/css/vaccine.css">
+   
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-HNTFXGGNJB"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         gtag('config', 'G-HNTFXGGNJB');
+      </script>
+
+   </head>
+   <body >
+       <!-- top nav -->
+    <div class="nav-wrapper">
+      <div class="container">
+          <div class="nav">
+              <a href="landing.html" class="logo">
+                  C<i class="bx bxs-virus-block bx-tada"></i>VID TRACKER
+              </a>
+              <div class="nav-link">
+               <a href="vaccineinfo.html">
+                   <span>
+                       Vaccination Info
+                   </span>
+               </a>
+           </div>
+              
+              <div class="darkmode-switch" id="darkmode-switch">
+                  <span>
+                      <i class="bx bxs-moon"></i>
+                      <i class="bx bxs-sun"></i>
+                  </span>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- end top nav -->
+  <section class="container">
+      <div class="heading" style="margin-bottom:20px">
+        
+            <h1 class="my-3">Vaccine Availability Tracker</h1>
+           
+             <p style="color: #818182;">
+                Once you select a district, you can use the link to load that district's availability instantly.
+             </p>
+            
+         
+      </div>
+      <form onsubmit="check()" style="margin-bottom: 0px;">
+         <div class="row">
+            <div class="col-sm">
+               <label for="states">State:</label>
+               <select class="custom-select custom-select-sm" name="states" id="states" onchange="changeState()">
+               </select>  
+            </div>
+            <div class="col-sm">
+               <label for="districts">District:</label>
+               <select class="custom-select custom-select-sm" name="districts" id="districts">
+               </select>
+            </div>
+         </div>
+         <div class="row my-3">
+            <div class="col-sm">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="week" id="weekThis" value="this" checked="checked">
+                <label class="form-check-label" for="weekThis">This week</label>
+             </div>
+            <div class="form-check form-check-inline">
+               <input class="form-check-input" type="radio" name="week" id="weekNext" value="next">
+               <label class="form-check-label" for="weekNext">Next week</label>
+            </div>
+            <div class="form-check form-check-inline">
+               <input class="form-check-input" type="radio" name="week" id="weekAfter" value="after">
+               <label class="form-check-label" for="weekAfter">The week after</label>
+            </div>
+            </div>
+         </div>
+         <div class="row my-3">
+            <div class="col-sm">
+            <div class="form-check form-check-inline">
+               <input class="form-check-input" type="radio" name="age" id="age18" value="18" checked="checked">
+               <label class="form-check-label" for="age18">Age 18+</label>
+            </div>
+            <div class="form-check form-check-inline">
+               <input class="form-check-input" type="radio" name="age"  id="age45" value="45">
+               <label class="form-check-label" for="age45">Age 45+</label>
+            </div>
+            </div>
+         </div>
+         <input type="button" class="btn btn-primary" value="Check Available Centers" onclick="check()">
+      </form>
+      <div id="results">
+      </div>
+   </section>
+
+    <!-- footer -->
+    <div class="footer">
+      Designed by <a href="#">COVID TRACKER</a>
+  </div>
+  <!-- end footer -->
+     
+      <script src="./static/js/jquery 3.4.1"></script>
+      <script src="./static/js/app.js"></script>     
+      <script src="./static/js/data.js"></script>
+      <script src="./static/js/vaccine.js"></script>
+   </body>
+</html>

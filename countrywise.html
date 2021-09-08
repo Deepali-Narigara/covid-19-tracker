@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Covid tracker
+    </title>
+    <link rel="shortcut icon" href="./static/images/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.min.js" defer></script>
+    <script src="https://use.fontawesome.com/9f47f376f1.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./static/css/bootstrap.css">
+    <link rel="stylesheet" href="./static/css/statewise.css">
+</head>
+
+<body>
+    <div id="loader"></div>
+    <!-- top nav -->
+    <div class="nav-wrapper">
+        <div class="container">
+            <div class="nav">
+                <a href="landing.html" class="logo">
+                    C<i class="bx bxs-virus-block bx-tada"></i>VID TRACKER
+                </a>
+               
+                
+                <div class="darkmode-switch" id="darkmode-switch">
+                    <span>
+                        <i class="bx bxs-moon"></i>
+                        <i class="bx bxs-sun"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end top nav -->
+
+
+    <div class="container-fluid">
+        <div class="section_header text-center mb-5 mt-4">
+            <h1>Global Covid-19 Statistics</h1>
+        </div>
+    </div>
+
+    <div class="corona-update">
+       
+        <div class="col-12 col-lg-12 data-show">
+            <div class="data-box one">
+                <h1 class="count" id="totalcases"></h1>
+                <p>Total cases worldwide</p>
+            </div>
+            <div class="data-box two">
+                <h1 class="count" id="totalrecovered"></h1>
+                <p>Total recovered worldwide</p>
+            </div>
+            <div class="data-box three">
+                <h1 class="count" id="totaldeath"></h1>
+                <p>Total deaths worldwide</p>
+            </div>
+            <div class="data-box four">
+                <h1 class="count" id="newconfirmed"></h1>
+                <p>New confirmed cases today</p>
+            </div>
+        </div>
+        
+    </div>
+    
+    
+    <div class="container-fluid" x-data="tableViewModel()" x-init="getData()">
+        <div class="search-input form-group w-25 mx-auto">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Find a Country</div>
+                </div>
+                <input class="form-control" type="text" placeholder="Type Country Name" x-model="searchInput" x-on:keyup="updateSearch">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" x-on:click="resetSearch">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive data-table">
+            
+            <table class="table text-center" id="tbval">
+                <thead>
+                    <tr>
+                        <th class="sort-header" x-on:click="sortRow('Country')">
+                            Country 
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'Country'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'Country'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('TotalConfirmed')">
+                            Total Confirmed 
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'TotalConfirmed'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'TotalConfirmed'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('TotalRecovered')">
+                            Total Recovered
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'TotalRecovered'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'TotalRecovered'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('TotalDeaths')">
+                            Total Deaths
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'TotalDeaths'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'TotalDeaths'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('NewConfirmed')">
+                            New Confirmed
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'NewConfirmed'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'NewConfirmed'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('NewRecovered')">
+                            New Recovered
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'NewRecovered'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'NewRecovered'"></i>
+                        </th>
+                        <th class="sort-header" x-on:click="sortRow('NewDeaths')">
+                            New Death
+                            <i class="fa fa-sort-up" x-show="sortAsc && sortField === 'NewDeaths'"></i>
+                            <i class="fa fa-sort-down" x-show="!sortAsc && sortField === 'NewDeaths'"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="(row, index) in countries" :key="row.Slug">
+                        <tr>
+                            <td><span x-text="row.Country"></span></td>
+                            <td><span x-text="row.TotalConfirmed"></span></td>
+                            <td><span x-text="row.TotalRecovered"></span></td>
+                            <td><span x-text="row.TotalDeaths"></span></td>
+                            <td><span x-text="row.NewConfirmed"></span></td>
+                            <td><span x-text="row.NewRecovered"></span></td>
+                            <td><span x-text="row.NewDeaths"></span></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div> 
+    </div>
+     
+     <!-- footer -->
+     <div class="footer">
+        Designed by <a href="#">COVID TRACKER</a>
+    </div>
+    <!-- end footer -->
+    
+     <!-- JS -->
+     <script src="./static/js/app.js"></script>
+     <script src="./static/js/bootstrap.js"></script>
+     <script src="./static/js/countrywise.js"></script>
+     <script src="./static/js/landing.js"></script>
+    
+</body>
+</html>
